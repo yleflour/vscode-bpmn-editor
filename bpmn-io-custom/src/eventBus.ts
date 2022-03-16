@@ -1,3 +1,0 @@
-enum Events {
-  LOADED = "loaded",
-}

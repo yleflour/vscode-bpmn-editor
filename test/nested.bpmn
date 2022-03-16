@@ -144,7 +144,9 @@
     <bpmndi:BPMNPlane id="sid-5fb4720f-4b99-4727-8770-dd4166bcd5e4" bpmnElement="rootProcess">
       <bpmndi:BPMNEdge id="sid-3FAE72F2-4037-4CBA-8B89-01D7FC7FF3E3_gui" bpmnElement="sid-3FAE72F2-4037-4CBA-8B89-01D7FC7FF3E3">
         <omgdi:waypoint x="675" y="226" />
-        <omgdi:waypoint x="717" y="226" />
+        <omgdi:waypoint x="741" y="226" />
+        <omgdi:waypoint x="741" y="460" />
+        <omgdi:waypoint x="806" y="460" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sid-F7DA1903-6A1A-4858-AF4B-286A968C957F_gui" bpmnElement="sid-F7DA1903-6A1A-4858-AF4B-286A968C957F">
         <omgdi:waypoint x="529" y="226" />
@@ -185,11 +187,8 @@
       <bpmndi:BPMNShape id="parallelGateway_gui" bpmnElement="parallelGateway">
         <omgdc:Bounds x="235" y="205" width="40" height="40" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1x90on4_di" bpmnElement="parallelGateway_withoutContent">
-        <omgdc:Bounds x="575" y="186" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sid-DA90DE99-58B0-4371-B71D-87A718ACB64D_gui" bpmnElement="sid-DA90DE99-58B0-4371-B71D-87A718ACB64D">
-        <omgdc:Bounds x="717" y="212" width="28" height="28" />
+        <omgdc:Bounds x="806" y="446" width="28" height="28" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="collapsedProcess_gui" bpmnElement="collapsedProcess" isExpanded="false">
         <omgdc:Bounds x="345" y="80" width="100" height="80" />
@@ -208,6 +207,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sid-A53C38A9-456B-4AC9-9D4A-6EC9663BA77C_gui" bpmnElement="sid-A53C38A9-456B-4AC9-9D4A-6EC9663BA77C">
         <omgdc:Bounds x="515" y="424" width="28" height="28" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1x90on4_di" bpmnElement="parallelGateway_withoutContent">
+        <omgdc:Bounds x="575" y="186" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sid-C586DCF2-0B1B-4878-8042-F9869023F21B_gui" bpmnElement="sid-C586DCF2-0B1B-4878-8042-F9869023F21B">
         <omgdc:Bounds x="405" y="350" width="30" height="30" />

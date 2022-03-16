@@ -2,7 +2,7 @@ export class Navigator {
   private canvas: any;
   private eventBus: any;
   private search: URLSearchParams;
-  private browserNavigationInProgress: boolean = false;
+  private browserNavigationInProgress = false;
 
   constructor(modeler) {
     this.canvas = modeler.get("canvas");
@@ -17,7 +17,7 @@ export class Navigator {
         return;
       }
 
-      var rootElement = event.element;
+      const rootElement = event.element;
 
       this.search.set("rootElement", rootElement.id);
       window.history.pushState(
@@ -28,7 +28,7 @@ export class Navigator {
     });
 
     window.addEventListener("popstate", (event) => {
-      var rootElement = event.state && event.state.element;
+      const rootElement = event.state && event.state.element;
 
       if (!rootElement) {
         return;

@@ -1,5 +1,4 @@
-import EMPTY_DIAGRAM_XML from "./nested.bpmn?raw";
-
+import EMPTY_DIAGRAM_XML from "./empty.bpmn?raw";
 export class ContentManager {
   modeler: any;
 
@@ -14,11 +13,12 @@ export class ContentManager {
   async loadDiagram(content: string) {
     try {
       const { warnings } = await this.modeler.importXML(content);
-      console.debug("rendered");
+      console.debug("[BPMN_Modeler] Rerendered diagram");
 
-      if (warnings) console.warn(warnings);
+      if (warnings && warnings.length) console.warn(warnings);
     } catch (err) {
-      console.log("error rendering", err);
+      console.error("[BPMN_Modeler] Error rendering", err);
+      throw err;
     }
   }
 
