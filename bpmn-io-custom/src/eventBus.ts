@@ -1,0 +1,3 @@
+enum Events {
+  LOADED = "loaded",
+}

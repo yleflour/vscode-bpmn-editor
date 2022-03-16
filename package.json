@@ -1,9 +1,9 @@
 {
-	"name": "base-sample",
-	"displayName": "base-sample",
-	"description": "Base sample for other samples at Microsoft/vscode-extension-samples",
+	"name": "vscode-bpmn-editor",
+	"displayName": "VSCode BPMN Editor",
+	"description": "A .bpmn file editor integreated with VSCode, using BPMN-js",
 	"version": "0.0.1",
-	"publisher": "vscode-samples",
+	"publisher": "ublo",
 	"private": true,
 	"license": "MIT",
 	"repository": {
@@ -17,14 +17,19 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.bpmnEditor"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
+		"customEditors": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"viewType": "bpmnEditor.modeler",
+				"displayName": "BPMN Modeler",
+				"selector": [
+					{
+						"filenamePattern": "*.bpmn"
+					}
+				]
 			}
 		]
 	},
