@@ -15,7 +15,6 @@ import { ContentManager } from "./contentManager";
 import hotkeys from "hotkeys-js";
 
 // Setup
-let isLoaded = false;
 const vscode = acquireVsCodeApi();
 
 const modeler = new BpmnModeler({
@@ -33,10 +32,10 @@ navigation.setupNavigation();
 window.addEventListener("message", async (event) => {
   const message = event.data; // The json data that the extension sent
   switch (message.type) {
-    case "update":
+    case "loadXMl":
       loadChanges(message.text);
       return;
-    case "saveFile":
+    case "saveXML":
       saveChanges();
       return;
   }
@@ -45,7 +44,6 @@ window.addEventListener("message", async (event) => {
 // Helpers
 async function loadChanges(content) {
   console.debug("[BPMN_Modeler] Loading changes");
-  isLoaded = true;
 
   try {
     await contentManager.loadDiagram(content);
@@ -54,7 +52,7 @@ async function loadChanges(content) {
     saveChanges();
   }
 
-  navigation.updateRootElement();
+  // navigation.updateRootElement();
 
   // Persist state information.
   // This state is returned in the call to `vscode.getState` below when a webview is reloaded.

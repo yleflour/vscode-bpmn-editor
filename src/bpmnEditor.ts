@@ -28,7 +28,7 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     // Send document content to the webview
     function updateWebview() {
       webviewPanel.webview.postMessage({
-        type: "update",
+        type: "loadXML",
         text: document.getText(),
       });
     }
@@ -49,8 +49,7 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     // Handle events from the webview
     webviewPanel.webview.onDidReceiveMessage((e) => {
       switch (e.type) {
-        case "update":
-          console.log("Saving");
+        case "saveXML":
           this.replaceDocument(document, e.text);
           return;
       }
