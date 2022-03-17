@@ -39,16 +39,16 @@ window.addEventListener("message", async (event) => {
       openXML(message.text);
       return;
     default:
-      console.warn("[BPMN_Modeler] Unknown message type: " + message);
+      console.warn("[BPMN_Editor.Webview] Unknown message type: " + message);
   }
 });
 
 // Helpers
 async function openXML(content) {
-  console.debug("[BPMN_Modeler] Loading changes");
+  console.debug("[BPMN_Editor.Webview] Loading changes");
 
   if (!content) {
-    console.debug("[BPMN_Modeler] Empty diagram, saving template");
+    console.debug("[BPMN_Editor.Webview] Empty diagram, saving template");
     await contentManager.newDiagram();
     sendChanges();
   } else {
@@ -61,7 +61,7 @@ async function openXML(content) {
 }
 
 function sendChanges() {
-  console.debug("[BPMN_Modeler] Sending changes");
+  console.debug("[BPMN_Editor.Webview] Sending changes");
 
   contentManager.exportDiagram().then((text) => {
     codeApi.sendUpdateXML(text);
@@ -74,6 +74,6 @@ modeler.get("eventBus").on("commandStack.changed", sendChanges);
 // Load current state information if exists
 const state = codeApi.state;
 if (state.content) {
-  console.debug("[BPMN_Modeler] Loading from current state");
+  console.debug("[BPMN_Editor.Webview] Loading from current state");
   openXML(state.content);
 }

@@ -13,11 +13,11 @@ export class ContentManager {
   async loadDiagram(content: string) {
     try {
       const { warnings } = await this.modeler.importXML(content);
-      console.debug("[BPMN_Modeler] Rerendered diagram");
+      console.debug("[BPMN_Editor.Modeler] Rerendered diagram");
 
       if (warnings && warnings.length) console.warn(warnings);
     } catch (err) {
-      console.error("[BPMN_Modeler] Error rendering", err);
+      console.error("[BPMN_Editor.Modeler] Error rendering", err);
       throw err;
     }
   }
