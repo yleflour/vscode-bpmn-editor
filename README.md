@@ -1,5 +1,9 @@
-# Base Sample
+# BPMN Editor
 
-This sample is similar to the [helloworld-sample](../helloworld-sample), but it follows the [Sample Guideline](https://github.com/Microsoft/vscode-extension-samples/blob/main/.github/SAMPLE_GUIDELINE.md).
+This extensions uses bpmn-js to open and modify *.bpmn files
 
-You can easily write a new sample following the guideline by `cp -r .base-sample my-sample`.
+## Added features
+
+- Uses the deep-nested bpmn-js feature, allowing you to traverse sub processes instead of expanding them in a single top level view
+- It adds colors using the bpmn-js-color-picker module
+- If the file is empty, loads an empty bpmn xml

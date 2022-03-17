@@ -6,3 +6,10 @@ src/**
 .gitignore
 tsconfig.json
 vsc-extension-quickstart.md
+
+# Project
+test-assets/**
+
+# Web
+bpmn-io-custom/**
+web-dist/index.html
