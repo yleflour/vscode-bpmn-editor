@@ -11,6 +11,7 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
   }
 
   private static readonly viewType = "bpmnEditor.modeler";
+  private skipNextUpdatePush = false;
 
   public constructor(private readonly context: vscode.ExtensionContext) {}
 
@@ -40,10 +41,16 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
       });
     }
 
+    vscode.workspace.onWillSaveTextDocument(() => {
+      // If the save comes from the document itself, do not send an update message
+      this.skipNextUpdatePush = true;
+    });
+
     // Document content change subscription
     const changeDocumentSubscription = vscode.workspace.onDidSaveTextDocument(
       (e) => {
-        updateXML();
+        if (this.skipNextUpdatePush) this.skipNextUpdatePush = false;
+        else updateXML();
       }
     );
 

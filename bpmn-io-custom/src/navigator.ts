@@ -4,7 +4,6 @@ export class Navigator {
   private canvas: any;
   private eventBus: any;
   private rootNodeId: undefined | string;
-  private _skipNextRootUpdate = false;
 
   constructor(modeler, private readonly stateManager: CodeApiManager) {
     this.canvas = modeler.get("canvas");
@@ -16,7 +15,6 @@ export class Navigator {
     const rootNodeId = this.stateManager.state.rootNodeId;
     if (rootNodeId) {
       this.rootNodeId = rootNodeId;
-      this.refreshRootElement();
     }
 
     // Set root
@@ -26,19 +24,11 @@ export class Navigator {
   private setRootFromEvent(event) {
     const rootElement = event.element;
     if (rootElement.id === this.rootNodeId) return;
-    if (this._skipNextRootUpdate) {
-      console.debug("[Navigator] Skipping root update");
-      this._skipNextRootUpdate = false;
-    } else {
-      console.debug("[Navigator] Root element set: ", this.rootNodeId);
-      this.rootNodeId = rootElement.id;
-    }
+
+    console.debug("[Navigator] Root element set: ", this.rootNodeId);
+    this.rootNodeId = rootElement.id;
 
     this.stateManager.updateState({ rootNodeId: this.rootNodeId });
-  }
-
-  public async skipNextRootUpdate() {
-    this._skipNextRootUpdate = true;
   }
 
   public refreshRootElement() {

@@ -36,7 +36,7 @@ window.addEventListener("message", async (event) => {
       openXML(message.text);
       return;
     case "updateXML":
-      updateXML(message.text);
+      openXML(message.text);
       return;
     default:
       console.warn("[BPMN_Modeler] Unknown message type: " + message);
@@ -54,16 +54,6 @@ async function openXML(content) {
   } else {
     await contentManager.loadDiagram(content);
   }
-
-  // Persist state information.
-  // This state is returned in the call to `vscode.getState` below when a webview is reloaded.
-  codeApi.updateState({ content });
-}
-
-async function updateXML(content) {
-  navigation.skipNextRootUpdate();
-  await contentManager.loadDiagram(content);
-  navigation.refreshRootElement();
 
   // Persist state information.
   // This state is returned in the call to `vscode.getState` below when a webview is reloaded.
