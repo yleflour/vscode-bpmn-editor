@@ -12,10 +12,10 @@ import BpmnColorPickerModule from "bpmn-js-color-picker";
 // Libs
 import { Navigator } from "./navigator";
 import { ContentManager } from "./contentManager";
-import hotkeys from "hotkeys-js";
+import { CodeApiManager } from "./codeApiManager";
 
 // Setup
-const vscode = acquireVsCodeApi();
+const codeApi = new CodeApiManager();
 
 const modeler = new BpmnModeler({
   container: "#canvas",
@@ -23,7 +23,7 @@ const modeler = new BpmnModeler({
   additionalModules: [BpmnColorPickerModule],
 });
 
-const navigation = new Navigator(modeler);
+const navigation = new Navigator(modeler, codeApi);
 const contentManager = new ContentManager(modeler);
 
 navigation.setupNavigation();
@@ -32,52 +32,58 @@ navigation.setupNavigation();
 window.addEventListener("message", async (event) => {
   const message = event.data; // The json data that the extension sent
   switch (message.type) {
-    case "loadXMl":
-      loadChanges(message.text);
+    case "loadXML":
+      openXML(message.text);
       return;
-    case "saveXML":
-      saveChanges();
+    case "updateXML":
+      updateXML(message.text);
       return;
+    default:
+      console.warn("[BPMN_Modeler] Unknown message type: " + message);
   }
 });
 
 // Helpers
-async function loadChanges(content) {
+async function openXML(content) {
   console.debug("[BPMN_Modeler] Loading changes");
 
-  try {
-    await contentManager.loadDiagram(content);
-  } catch (error) {
+  if (!content) {
+    console.debug("[BPMN_Modeler] Empty diagram, saving template");
     await contentManager.newDiagram();
-    saveChanges();
+    sendChanges();
+  } else {
+    await contentManager.loadDiagram(content);
   }
-
-  // navigation.updateRootElement();
 
   // Persist state information.
   // This state is returned in the call to `vscode.getState` below when a webview is reloaded.
-  vscode.setState({ content });
+  codeApi.updateState({ content });
 }
 
-function saveChanges() {
-  console.debug("[BPMN_Modeler] Saving");
+async function updateXML(content) {
+  navigation.skipNextRootUpdate();
+  await contentManager.loadDiagram(content);
+  navigation.refreshRootElement();
+
+  // Persist state information.
+  // This state is returned in the call to `vscode.getState` below when a webview is reloaded.
+  codeApi.updateState({ content });
+}
+
+function sendChanges() {
+  console.debug("[BPMN_Modeler] Sending changes");
 
   contentManager.exportDiagram().then((text) => {
-    vscode.postMessage({ type: "update", text });
+    codeApi.sendUpdateXML(text);
   });
 }
 
 // Auto save on XML Change
-modeler.get("eventBus").on("commandStack.changed", saveChanges);
-
-// Keyboard save shortcuts
-hotkeys("ctrl+s,cmd+s", () => {
-  saveChanges();
-});
+modeler.get("eventBus").on("commandStack.changed", sendChanges);
 
 // Load current state information if exists
-const state = vscode.getState() as { content: string } | undefined;
-if (state) {
+const state = codeApi.state;
+if (state.content) {
   console.debug("[BPMN_Modeler] Loading from current state");
-  loadChanges(state.content);
+  openXML(state.content);
 }

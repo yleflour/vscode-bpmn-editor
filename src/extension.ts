@@ -3,5 +3,5 @@ import { BpmnEditorProvider } from "./bpmnEditor";
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(BpmnEditorProvider.register(context));
-  console.log("BPMN Editor is now actives");
+  console.log("BPMN Editor is now active");
 }

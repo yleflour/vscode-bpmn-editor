@@ -26,7 +26,14 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
 
     // Send document content to the webview
-    function updateWebview() {
+    function updateXML() {
+      webviewPanel.webview.postMessage({
+        type: "updateXML",
+        text: document.getText(),
+      });
+    }
+
+    function loadXML() {
       webviewPanel.webview.postMessage({
         type: "loadXML",
         text: document.getText(),
@@ -34,11 +41,9 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     }
 
     // Document content change subscription
-    const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(
+    const changeDocumentSubscription = vscode.workspace.onDidSaveTextDocument(
       (e) => {
-        if (e.document.uri.toString() === document.uri.toString()) {
-          updateWebview();
-        }
+        updateXML();
       }
     );
 
@@ -49,13 +54,13 @@ export class BpmnEditorProvider implements vscode.CustomTextEditorProvider {
     // Handle events from the webview
     webviewPanel.webview.onDidReceiveMessage((e) => {
       switch (e.type) {
-        case "saveXML":
+        case "updateXML":
           this.replaceDocument(document, e.text);
           return;
       }
     });
 
-    updateWebview();
+    loadXML();
   }
 
   private getNonce() {

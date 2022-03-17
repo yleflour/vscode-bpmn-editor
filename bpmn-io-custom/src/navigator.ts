@@ -1,49 +1,49 @@
+import { CodeApiManager } from "./codeApiManager";
+
 export class Navigator {
   private canvas: any;
   private eventBus: any;
-  private search: URLSearchParams;
-  private browserNavigationInProgress = false;
+  private rootNodeId: undefined | string;
+  private _skipNextRootUpdate = false;
 
-  constructor(modeler) {
+  constructor(modeler, private readonly stateManager: CodeApiManager) {
     this.canvas = modeler.get("canvas");
     this.eventBus = modeler.get("eventBus");
-    this.search = new URLSearchParams(window.location.search);
   }
 
   public setupNavigation() {
-    this.eventBus.on("root.set", (event) => {
-      // location is already updated through the browser history API
-      if (this.browserNavigationInProgress) {
-        return;
-      }
+    // Update from state on init
+    const rootNodeId = this.stateManager.state.rootNodeId;
+    if (rootNodeId) {
+      this.rootNodeId = rootNodeId;
+      this.refreshRootElement();
+    }
 
-      const rootElement = event.element;
-
-      this.search.set("rootElement", rootElement.id);
-      window.history.pushState(
-        { element: rootElement.id },
-        "",
-        "index.html?" + this.search.toString()
-      );
-    });
-
-    window.addEventListener("popstate", (event) => {
-      const rootElement = event.state && event.state.element;
-
-      if (!rootElement) {
-        return;
-      }
-
-      this.browserNavigationInProgress = true;
-      this.canvas.setRootElement(this.canvas.findRoot(rootElement));
-      this.browserNavigationInProgress = false;
-    });
+    // Set root
+    this.eventBus.on("root.set", this.setRootFromEvent.bind(this));
   }
 
-  public updateRootElement() {
-    const root = this.search.get("rootElement");
-    if (root) {
-      this.canvas.setRootElement(this.canvas.findRoot(root));
+  private setRootFromEvent(event) {
+    const rootElement = event.element;
+    if (rootElement.id === this.rootNodeId) return;
+    if (this._skipNextRootUpdate) {
+      console.debug("[Navigator] Skipping root update");
+      this._skipNextRootUpdate = false;
+    } else {
+      console.debug("[Navigator] Root element set: ", this.rootNodeId);
+      this.rootNodeId = rootElement.id;
     }
+
+    this.stateManager.updateState({ rootNodeId: this.rootNodeId });
+  }
+
+  public async skipNextRootUpdate() {
+    this._skipNextRootUpdate = true;
+  }
+
+  public refreshRootElement() {
+    console.debug("[Navigator] Refreshing Root Element", this.rootNodeId);
+    if (this.rootNodeId)
+      this.canvas.setRootElement(this.canvas.findRoot(this.rootNodeId));
   }
 }
