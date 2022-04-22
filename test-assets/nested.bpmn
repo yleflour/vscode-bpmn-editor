@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:signavio="http://www.signavio.com" id="sid-edcb32b0-ba3c-4331-9874-58685c514c55" targetNamespace="http://www.signavio.com" expressionLanguage="http://www.w3.org/TR/XPath" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:signavio="http://www.signavio.com" id="sid-edcb32b0-ba3c-4331-9874-58685c514c55" targetNamespace="http://www.signavio.com" expressionLanguage="http://www.w3.org/TR/XPath" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
   <error id="sid-c4218475-d7d4-4ee6-ae73-5d44c49114b8" />
   <process id="rootProcess" name="Root" processType="None" isClosed="false" isExecutable="true">
     <startEvent id="sid-6687E2F4-B03D-4E57-A62B-68FA642BE19C">
@@ -187,9 +192,6 @@
       <bpmndi:BPMNShape id="parallelGateway_gui" bpmnElement="parallelGateway">
         <omgdc:Bounds x="235" y="205" width="40" height="40" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="sid-DA90DE99-58B0-4371-B71D-87A718ACB64D_gui" bpmnElement="sid-DA90DE99-58B0-4371-B71D-87A718ACB64D">
-        <omgdc:Bounds x="806" y="446" width="28" height="28" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="collapsedProcess_gui" bpmnElement="collapsedProcess" isExpanded="false">
         <omgdc:Bounds x="345" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel labelStyle="sid-c53530f5-9da8-4535-ae6d-c94859ea5b93">
@@ -208,6 +210,9 @@
       <bpmndi:BPMNShape id="sid-A53C38A9-456B-4AC9-9D4A-6EC9663BA77C_gui" bpmnElement="sid-A53C38A9-456B-4AC9-9D4A-6EC9663BA77C">
         <omgdc:Bounds x="515" y="424" width="28" height="28" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sid-DA90DE99-58B0-4371-B71D-87A718ACB64D_gui" bpmnElement="sid-DA90DE99-58B0-4371-B71D-87A718ACB64D">
+        <omgdc:Bounds x="806" y="446" width="28" height="28" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1x90on4_di" bpmnElement="parallelGateway_withoutContent">
         <omgdc:Bounds x="575" y="186" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -222,8 +227,10 @@
   <bpmndi:BPMNDiagram id="sid-99a6a759-9161-4f4a-a83d-9ad6b9fbdc7e">
     <bpmndi:BPMNPlane id="sid-62501c88-ba6c-44ea-90f1-3ccf6a7cea2f" bpmnElement="collapsedProcess">
       <bpmndi:BPMNEdge id="sid-B99D259B-1BD5-45FF-BD57-FB99C360BAC0_gui" bpmnElement="sid-B99D259B-1BD5-45FF-BD57-FB99C360BAC0">
-        <omgdi:waypoint x="658" y="154.85467980295567" />
-        <omgdi:waypoint x="703" y="154.9655172413793" />
+        <omgdi:waypoint x="658" y="155" />
+        <omgdi:waypoint x="707" y="155" />
+        <omgdi:waypoint x="707" y="300" />
+        <omgdi:waypoint x="756" y="300" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="sid-FB543319-8DFB-4445-AAA3-720137FB230B_gui" bpmnElement="sid-FB543319-8DFB-4445-AAA3-720137FB230B">
         <omgdi:waypoint x="325" y="154.89539748953976" />
@@ -241,6 +248,9 @@
         <bpmndi:BPMNLabel labelStyle="sid-592ddc98-48fc-42b3-b7f9-1df8b6d368c5">
           <omgdc:Bounds x="241.44285583496094" y="147" width="67.11428833007812" height="12" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sid-EE9F103D-15EA-4FBB-A4DB-8B94E5F04390_gui" bpmnElement="sid-EE9F103D-15EA-4FBB-A4DB-8B94E5F04390">
+        <omgdc:Bounds x="756" y="286" width="28" height="28" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="expandedProcess_gui" bpmnElement="expandedProcess" isExpanded="true">
         <omgdc:Bounds x="370" y="79" width="288" height="151" />
@@ -265,9 +275,6 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="sid-17C71FEB-D00D-46D0-ACBE-BB424A3EE5A5_gui" bpmnElement="sid-17C71FEB-D00D-46D0-ACBE-BB424A3EE5A5">
         <omgdc:Bounds x="610" y="141" width="28" height="28" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="sid-EE9F103D-15EA-4FBB-A4DB-8B94E5F04390_gui" bpmnElement="sid-EE9F103D-15EA-4FBB-A4DB-8B94E5F04390">
-        <omgdc:Bounds x="703" y="141" width="28" height="28" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
     <bpmndi:BPMNLabelStyle id="sid-592ddc98-48fc-42b3-b7f9-1df8b6d368c5">
