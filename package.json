@@ -2,7 +2,8 @@
   "name": "vscode-bpmn-editor",
   "displayName": "BPMN Editor",
   "description": "A .bpmn file editor integreated with VSCode, using BPMN-js",
-  "version": "1.0.0",
+  "publisher": "yleflour",
+  "version": "1.0.1",
   "icon": "images/logo.png",
   "repository": {
     "url": "https://github.com/yleflour/vscode-bpmn-editor.git",
@@ -39,6 +40,7 @@
   "scripts": {
     "web:install": "cd bpmn-io-custom && yarn install",
     "web:build": "cd bpmn-io-custom && yarn build",
+    "web:dev": "cd bpmn-io-custom && yarn build --watch",
     "postinstall": "yarn web:install",
     "vscode:prepublish": "yarn web:build && npm run compile",
     "compile": "tsc -p ./",
