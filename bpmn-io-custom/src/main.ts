@@ -12,10 +12,14 @@ import BpmnColorPickerModule from "bpmn-js-color-picker";
 // Libs
 import { Navigator } from "./navigator";
 import { ContentManager } from "./contentManager";
-import { CodeApiManager } from "./codeApiManager";
+import { StateManager } from "./stateManager";
+import { LoaderManager } from "./loaderManager";
+
+const DEBUG = false;
 
 // Setup
-const codeApi = new CodeApiManager();
+const stateManager = new StateManager();
+const loaderManager = new LoaderManager(stateManager);
 
 const modeler = new BpmnModeler({
   container: "#canvas",
@@ -23,57 +27,80 @@ const modeler = new BpmnModeler({
   additionalModules: [BpmnColorPickerModule],
 });
 
-const navigation = new Navigator(modeler, codeApi);
+const navigation = new Navigator(modeler, stateManager);
 const contentManager = new ContentManager(modeler);
-
-navigation.setupNavigation();
-
-// VSCode API listeners
-window.addEventListener("message", async (event) => {
-  const message = event.data; // The json data that the extension sent
-  switch (message.type) {
-    case "loadXML":
-      openXML(message.text);
-      return;
-    case "updateXML":
-      openXML(message.text);
-      return;
-    default:
-      console.warn("[BPMN_Editor.Webview] Unknown message type: " + message);
-  }
-});
 
 // Helpers
 async function openXML(content) {
-  console.debug("[BPMN_Editor.Webview] Loading changes");
+  DEBUG && console.debug("[BPMN_Editor.Webview] Loading changes");
 
   if (!content) {
-    console.debug("[BPMN_Editor.Webview] Empty diagram, saving template");
+    DEBUG &&
+      console.debug("[BPMN_Editor.Webview] Empty diagram, saving template");
     await contentManager.newDiagram();
     sendChanges();
   } else {
     await contentManager.loadDiagram(content);
+    // Persist in cache
+    stateManager.updateState({ content });
   }
 
   // Persist state information.
   // This state is returned in the call to `vscode.getState` below when a webview is reloaded.
-  codeApi.updateState({ content });
+  stateManager.updateState({ content });
 }
 
 function sendChanges() {
-  console.debug("[BPMN_Editor.Webview] Sending changes");
+  DEBUG && console.debug("[BPMN_Editor.Webview] Sending changes");
 
   contentManager.exportDiagram().then((text) => {
-    codeApi.sendUpdateXML(text);
+    stateManager.sendUpdateXML(text);
+    stateManager.updateState({ content: text });
   });
 }
 
-// Auto save on XML Change
-modeler.get("eventBus").on("commandStack.changed", sendChanges);
+// Listeners
 
-// Load current state information if exists
-const state = codeApi.state;
-if (state.content) {
-  console.debug("[BPMN_Editor.Webview] Loading from current state");
-  openXML(state.content);
+function setupListeners() {
+  // VSCode API listeners
+  window.addEventListener("message", async (event) => {
+    const message = event.data; // The json data that the extension sent
+    switch (message.type) {
+      case "updateXML":
+        DEBUG &&
+          console.debug(
+            "[BPMN_Editor.Webview] Updating event from editor: ",
+            message
+          );
+        openXML(message.text);
+        return;
+      case "loadXML":
+        break;
+      default:
+        DEBUG &&
+          console.debug(
+            "[BPMN_Editor.Webview] Unknown message type: ",
+            message
+          );
+    }
+  });
+
+  // Auto save on XML Change
+  modeler.get("eventBus").on("commandStack.changed", sendChanges);
+
+  // Navigation listeners
+  navigation.startListeners();
 }
+
+// Init
+async function init() {
+  DEBUG && console.debug("[BPMN_Editor.Webview] Initializing");
+
+  // Load last state
+  const state = await loaderManager.initialState;
+  await openXML(state.content);
+  navigation.setRootNodeId(state.rootNodeId);
+  setupListeners();
+}
+
+init();

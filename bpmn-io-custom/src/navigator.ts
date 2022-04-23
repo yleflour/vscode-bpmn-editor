@@ -1,38 +1,48 @@
-import { CodeApiManager } from "./codeApiManager";
+import { StateManager } from "./stateManager";
+
+const DEBUG = false;
 
 export class Navigator {
   private canvas: any;
   private eventBus: any;
   private rootNodeId: undefined | string;
 
-  constructor(modeler, private readonly stateManager: CodeApiManager) {
+  constructor(modeler, private readonly stateManager: StateManager) {
     this.canvas = modeler.get("canvas");
     this.eventBus = modeler.get("eventBus");
   }
 
-  public setupNavigation() {
-    // Update from state on init
-    const rootNodeId = this.stateManager.state.rootNodeId;
-    if (rootNodeId) {
-      this.rootNodeId = rootNodeId;
-    }
-
-    // Set root
+  public startListeners() {
+    DEBUG &&
+      console.debug("[BPMN_Editor.Navigator] Starting root element listener");
     this.eventBus.on("root.set", this.setRootFromEvent.bind(this));
   }
 
   private setRootFromEvent(event) {
     const rootElement = event.element;
+    DEBUG &&
+      console.debug(
+        "[BPMN_Editor.Navigator] Setting root element",
+        rootElement
+      );
     if (rootElement.id === this.rootNodeId) return;
 
-    console.debug("[Navigator] Root element set: ", this.rootNodeId);
+    console.debug("[BPMN_Editor.Navigator] Root element set: ", rootElement.id);
     this.rootNodeId = rootElement.id;
 
-    this.stateManager.updateState({ rootNodeId: this.rootNodeId });
+    this.stateManager.updateState({ rootNodeId: rootElement.id });
+  }
+
+  public setRootNodeId(rootNodeId = "rootProcess") {
+    this.rootNodeId = rootNodeId;
+    this.refreshRootElement();
   }
 
   public refreshRootElement() {
-    console.debug("[Navigator] Refreshing Root Element", this.rootNodeId);
+    console.debug(
+      "[BPMN_Editor.Navigator] Refreshing Root Element",
+      this.rootNodeId
+    );
     if (this.rootNodeId)
       this.canvas.setRootElement(this.canvas.findRoot(this.rootNodeId));
   }
