@@ -43,6 +43,7 @@
     "web:dev": "cd bpmn-io-custom && yarn build --watch",
     "postinstall": "yarn web:install",
     "vscode:prepublish": "yarn web:build && npm run compile",
+    "vscode:package": "vsce package",
     "compile": "tsc -p ./",
     "lint": "eslint . --ext .ts,.tsx",
     "watch": "tsc -watch -p ./"
