@@ -100,6 +100,7 @@ async function init() {
   const state = await loaderManager.initialState;
   await openXML(state.content);
   navigation.setRootNodeId(state.rootNodeId);
+  navigation.setViewBox(state.viewBox);
   setupListeners();
 }
 

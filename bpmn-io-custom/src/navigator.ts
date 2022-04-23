@@ -16,6 +16,21 @@ export class Navigator {
     DEBUG &&
       console.debug("[BPMN_Editor.Navigator] Starting root element listener");
     this.eventBus.on("root.set", this.setRootFromEvent.bind(this));
+    this.eventBus.on(
+      "canvas.viewbox.changed",
+      this.setViewboxFromEvent.bind(this)
+    );
+  }
+
+  private setViewboxFromEvent(event) {
+    DEBUG &&
+      console.debug(
+        "[BPMN_Editor.Navigator] Setting view box from event",
+        event.viewbox
+      );
+    this.stateManager.updateState({
+      viewBox: event.viewbox,
+    });
   }
 
   private setRootFromEvent(event) {
@@ -34,16 +49,14 @@ export class Navigator {
   }
 
   public setRootNodeId(rootNodeId = "rootProcess") {
+    DEBUG &&
+      console.debug("[BPMN_Editor.Navigator] Setting root node id", rootNodeId);
     this.rootNodeId = rootNodeId;
-    this.refreshRootElement();
+    this.canvas.setRootElement(this.canvas.findRoot(this.rootNodeId));
   }
 
-  public refreshRootElement() {
-    console.debug(
-      "[BPMN_Editor.Navigator] Refreshing Root Element",
-      this.rootNodeId
-    );
-    if (this.rootNodeId)
-      this.canvas.setRootElement(this.canvas.findRoot(this.rootNodeId));
+  public setViewBox(viewBox) {
+    DEBUG && console.debug("[BPMN_Editor.Navigator] Setting view box", viewBox);
+    if (viewBox) this.canvas.viewbox(viewBox);
   }
 }
