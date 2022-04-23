@@ -1,6 +1,8 @@
 import { WebviewApi } from "vscode-webview";
 
 export interface State {
+  // https://github.com/bpmn-io/diagram-js/blob/master/lib/core/Canvas.js#L1052
+  viewBox?: unknown;
   initialized?: boolean;
   content?: string;
   rootNodeId?: string;
