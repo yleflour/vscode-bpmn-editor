@@ -48,7 +48,7 @@ export class Navigator {
     this.stateManager.updateState({ rootNodeId: rootElement.id });
   }
 
-  public setRootNodeId(rootNodeId = "rootProcess") {
+  public setRootNodeId(rootNodeId) {
     DEBUG &&
       console.debug("[BPMN_Editor.Navigator] Setting root node id", rootNodeId);
     this.rootNodeId = rootNodeId;

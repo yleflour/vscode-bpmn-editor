@@ -62,6 +62,7 @@ function sendChanges() {
 // Listeners
 
 function setupListeners() {
+  DEBUG && console.debug("[BPMN_Editor.Webview] Setting up listeners");
   // VSCode API listeners
   window.addEventListener("message", async (event) => {
     const message = event.data; // The json data that the extension sent
@@ -99,8 +100,8 @@ async function init() {
   // Load last state
   const state = await loaderManager.initialState;
   await openXML(state.content);
-  navigation.setRootNodeId(state.rootNodeId);
-  navigation.setViewBox(state.viewBox);
+  if (state.rootNodeId) navigation.setRootNodeId(state.rootNodeId);
+  if (state.viewBox) navigation.setViewBox(state.viewBox);
   setupListeners();
 }
 
