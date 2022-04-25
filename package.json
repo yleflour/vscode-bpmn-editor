@@ -3,7 +3,7 @@
   "displayName": "BPMN Editor",
   "description": "A .bpmn file editor integreated with VSCode, using BPMN-js",
   "publisher": "yleflour",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "icon": "images/logo.png",
   "repository": {
     "url": "https://github.com/yleflour/vscode-bpmn-editor.git",

@@ -29,7 +29,6 @@ export class LoaderManager {
           const message = event.data;
           if (message.type === "loadXML") {
             resolve({
-              rootNodeId: "rootProcess",
               content: message.text == "" ? null : message.text,
             });
             // Remove listener

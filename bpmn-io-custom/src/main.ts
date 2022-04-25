@@ -99,6 +99,8 @@ async function init() {
 
   // Load last state
   const state = await loaderManager.initialState;
+  DEBUG &&
+    console.debug("[BPMN_Editor.Webview] Initializing with state: ", state);
   await openXML(state.content);
   if (state.rootNodeId) navigation.setRootNodeId(state.rootNodeId);
   if (state.viewBox) navigation.setViewBox(state.viewBox);
